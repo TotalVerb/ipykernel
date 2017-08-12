@@ -199,6 +199,8 @@ class Kernel(SingletonConfigurable):
         # flush control requests first
         if self.control_stream:
             self.control_stream.flush()
+        for s in self.shell_streams:
+            s.flush(zmq.POLLOUT)
 
         idents,msg = self.session.feed_identities(msg, copy=False)
         try:
